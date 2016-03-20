@@ -8,7 +8,7 @@
 // 'test/spec/**/*.js'
 
 module.exports = function (grunt) {
-
+  grunt.loadNpmTasks('grunt-contrib-concat');
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
@@ -30,6 +30,23 @@ module.exports = function (grunt) {
 
     // Project settings
     yeoman: appConfig,
+
+    concat: {
+      options: {
+        separator: '',
+      },
+      style: {
+        src: [
+          'bower_components/semantic/dist/components/reset.css',
+          'bower_components/semantic/dist/components/site.css',
+          'bower_components/semantic/dist/components/container.css',
+          'bower_components/semantic/dist/components/grid.css',
+          'bower_components/semantic/dist/components/button.css',
+          'bower_components/semantic/dist/components/form.css'
+          ],
+        dest: '<%= yeoman.app %>/styles/vendor.css',
+      },
+    },
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
@@ -220,7 +237,7 @@ module.exports = function (grunt) {
             }
           }
       }
-    }, 
+    },
 
     // Renames files for browser caching purposes
     filerev: {
@@ -400,13 +417,15 @@ module.exports = function (grunt) {
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
-        'copy:styles'
+        'copy:styles',
+        'concat:style'
       ],
       test: [
         'copy:styles'
       ],
       dist: [
         'copy:styles',
+        'concat',
         'imagemin',
         'svgmin'
       ]
