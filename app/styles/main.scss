@@ -1,0 +1,32 @@
+#auth {
+  background-color:white;
+  background-color:white;
+  background-image: linear-gradient(90deg, rgba(230,230,230,.5) 50%, transparent 50%),
+  linear-gradient(rgba(230,230,230,.5) 50%, transparent 50%);
+  background-size:2px 2px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  h1 {
+    text-align: center;
+    font-weight: normal;
+    font-size: 36px;
+    margin-bottom: 24px;
+  }
+  button {
+    margin-bottom: 24px;
+  }
+  & > div {
+    height: 100%;
+    & > div {
+      height: 100%;
+    }
+    position: relative;
+    .segment {
+      background: #fff;
+      margin-top: 50%;
+    }
+  }
+}

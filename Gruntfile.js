@@ -42,7 +42,10 @@ module.exports = function (grunt) {
           'bower_components/semantic/dist/components/container.css',
           'bower_components/semantic/dist/components/grid.css',
           'bower_components/semantic/dist/components/button.css',
-          'bower_components/semantic/dist/components/form.css'
+          'bower_components/semantic/dist/components/form.css',
+          'bower_components/semantic/dist/components/segment.css',
+          'bower_components/semantic/dist/components/header.css',
+          'bower_components/semantic/dist/components/icon.css'
           ],
         dest: '<%= yeoman.app %>/styles/vendor.css',
       },
@@ -68,6 +71,10 @@ module.exports = function (grunt) {
       styles: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
         tasks: ['newer:copy:styles', 'postcss']
+      },
+      sass: {
+        files: ['<%= yeoman.app %>/styles/{,*/}*.scss'],
+        tasks: ['sass']
       },
       gruntfile: {
         files: ['Gruntfile.js']
@@ -404,6 +411,11 @@ module.exports = function (grunt) {
           cwd: '.tmp/images',
           dest: '<%= yeoman.dist %>/images',
           src: ['generated/*']
+        }, {
+          expand: true,
+          cwd: 'bower_components/semantic/dist/themes/default/assets/fonts/',
+          dest: '<%= yeoman.dist %>/themes/default/assets/fonts/',
+          src: '**'
         }]
       },
       styles: {
@@ -411,14 +423,22 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      icon: {
+        expand: true,
+        cwd: 'bower_components/semantic/dist/themes/default/assets/fonts/',
+        dest: '.tmp/themes/default/assets/fonts/',
+        src: '**'
       }
     },
 
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
+        'concat:style',
         'copy:styles',
-        'concat:style'
+        'copy:icon',
+        'sass'
       ],
       test: [
         'copy:styles'
@@ -426,6 +446,7 @@ module.exports = function (grunt) {
       dist: [
         'copy:styles',
         'concat',
+        'sass',
         'imagemin',
         'svgmin'
       ]
@@ -437,6 +458,16 @@ module.exports = function (grunt) {
         configFile: 'test/karma.conf.js',
         singleRun: true
       }
+    },
+    sass: {
+        options: {
+            sourceMap: true
+        },
+        dist: {
+            files: {
+                '.tmp/styles/main.css': 'app/styles/main.scss'
+            }
+        }
     }
   });
 

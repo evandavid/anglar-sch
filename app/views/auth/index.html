@@ -1,0 +1,25 @@
+<div id="auth">
+    <div class="ui container">
+        <div class="ui centered grid">
+            <div class="seven wide column">
+                <div class="ui stacked padded segment">
+                    <form class="ui form">
+                      <h1> Sign In </h1>
+                      <div class="field">
+                        <label>Username</label>
+                        <input type="text" name="username" placeholder="Username" x-ng-model="vm.user.username">
+                      </div>
+                      <div class="field">
+                        <label>Password</label>
+                        <input type="password" name="password" placeholder="Password" x-ng-model="vm.user.password">
+                      </div>
+                      <button class="ui right labeled icon primary button" x-ng-click="vm.doLogin()" x-ng-class="{loading: vm.logginIn}">
+                          <i class="right arrow icon"></i>
+                          Sign in
+                      </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
