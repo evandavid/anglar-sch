@@ -308,15 +308,15 @@ module.exports = function (grunt) {
         }]
       }
     },
-    uglify: {
-      dist: {
-        files: {
-          '<%= yeoman.dist %>/scripts/scripts.js': [
-            '<%= yeoman.dist %>/scripts/scripts.js'
-          ]
-        }
-      }
-    },
+    // uglify: {
+    //   dist: {
+    //     files: {
+    //       '<%= yeoman.dist %>/scripts/scripts.js': [
+    //         '<%= yeoman.dist %>/scripts/scripts.js'
+    //       ]
+    //     }
+    //   }
+    // },
     // concat: {
     //   dist: {}
     // },
@@ -430,12 +430,6 @@ module.exports = function (grunt) {
         cwd: 'bower_components/semantic/dist/themes/default/assets/fonts/',
         dest: '<%= yeoman.dist %>/themes/default/assets/fonts/',
         src: '**'
-      },
-      vendor: {
-        expand: true,
-        cwd: 'app/styles/',
-        dest: '<%= yeoman.dist %>/styles/prod/',
-        src: 'vendor.css'
       }
     },
 
@@ -453,8 +447,7 @@ module.exports = function (grunt) {
       dist: [
         'concat:style',
         'copy:styles',
-        'copy:vendor',
-        'copy:icon',
+        'concat',
         'sass',
         'imagemin',
         'svgmin'
