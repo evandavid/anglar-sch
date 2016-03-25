@@ -1,0 +1,16 @@
+
+<form class="ui form" style="margin-bottom: 10px" x-ng-submit="vm.refresh()">
+  <div class="field">
+    <label>Name</label>
+    <input type="text" name="first-name" placeholder="Name" x-ng-disabled="vm.showForm" x-ng-model="vm.filter.name">
+  </div>
+  <div class="field">
+    <button class=" ui button" type="reset" x-ng-disabled="vm.showForm" x-ng-click="vm.clrFilter()">
+      Clear
+    </button>
+    <button class=" ui blue right labeled icon button" x-ng-disabled="vm.showForm">
+      <i class="search icon"></i>
+      Filter
+    </button>
+  </div>
+</form>

@@ -1,0 +1,39 @@
+<div class="ui padded main container">
+    <div class="ui grid">
+      <div class="four wide column">
+          <div class="ui top attached segment">
+             <div class="ui relaxed list">
+                <div class="item">
+                  <div class="ui avatar image page title">
+                      <i class="checkmark box icon"></i>
+                  </div>
+                  <div class="content">
+                    <a class="header">Services</a>
+                    <div class="description">Manage Services</div>
+                  </div>
+                </div>
+                <button class="title refresh action" title="Add new user" x-ng-click="vm.refresh()" x-ng-disabled="vm.showForm">
+                  <i class="refresh icon"></i>
+                </button>
+                <button class="title action" title="Add new user" x-ng-click="vm.getForm()" x-ng-disabled="vm.showForm">
+                  <i class="add icon"></i>
+                </button>
+              </div>
+          </div>
+
+          <div x-ng-include="'views/services/_filter.html'" class="ui bottom attached segment"></div>
+      </div>
+      <div class="twelve wide column">
+        <div x-ng-include="'views/services/_list.html'" x-ng-if="!vm.showForm"></div>
+        <div x-ng-include="'views/services/_form.html'" x-ng-if="vm.showForm"></div>
+      </div>
+    </div>
+</div>
+
+<div class="ui warning message undo" ng-if="vm.deleteId">
+  <div class="ui padded container">
+    <div class="header">Service deleted</div>
+    <p>You just successfully delete a service. <a href="" x-ng-click="vm.undoDelete()">Undo</a></p>
+  </div>
+
+</div>

@@ -1,0 +1,98 @@
+<div class="ui grey padded top attached segment">
+   <h4 class="ui header">
+   <span x-ng-if="!vm.selectedData.id">Create </span>
+   <span x-ng-if="vm.selectedData.id">Update </span>
+    Service</h4>
+</div>
+<div class="ui bottom padded attached segment">
+
+  <div class="ui negative message" x-ng-if="vm.formError">
+    <div class="header">
+      We're sorry, we cannot submit service.
+    </div>
+    <ol>
+      <li x-ng-repeat="error in vm.formError">{{error.message}}</li>
+    </ol>
+  </div>
+
+  <div class="ui positive message" x-ng-if="vm.formSuccess">
+    <div class="header">
+      Service successfully submitted.
+    </div>
+    <p>You will be redirected to service list page.</p>
+  </div>
+
+
+  <form class="ui form" style="margin-bottom: 10px" x-ng-submit="vm.submitForm(vm.selectedData)">
+    <div class="field">
+      <div class="five wide field">
+        <label>Name</label>
+        <input type="text" placeholder="Name" x-ng-model="vm.selectedData.name">
+      </div>
+    </div>
+
+    <div class="inline field">
+      <div class="ui checkbox">
+        <input type="checkbox" x-ng-model="vm.selectedData.isPackage">
+        <label>Is Package</label>
+      </div>
+    </div>
+
+    <div class="field" x-ng-show="vm.selectedData.isPackage">
+      <div class="four wide field">
+        <label>Price</label>
+        <input type="text" placeholder="Price" x-ng-model="vm.selectedData.price">
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="six wide field">
+        <label>Tasks</label>
+      </div>
+    </div>
+
+    <div class="fields" style=" margin-bottom: -15px;">
+      <div class="six wide field">
+        <label>Task Name</label>
+      </div>
+      <div class="four wide field">
+        <label>Task Price</label>
+      </div>
+      <div class="four wide field">
+        <label>&nbsp</label>
+      </div>
+    </div>
+
+    <div class="fields" x-ng-repeat="task in vm.selectedData.Tasks">
+      <div class="six wide field">
+        <input type="text" placeholder="Task Name" x-ng-model="task.name">
+      </div>
+      <div class="four wide field">
+        <input type="text" placeholder="Task Price" x-ng-model="task.price">
+      </div>
+      <div class="four wide field">
+        <div class="ui red labeled icon button" x-ng-click="vm.removeTask($index)">
+          <i class="trash icon"></i>
+          Remove
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <div class="ui right labeled icon button" x-ng-click="vm.addTask()">
+        <i class="save icon"></i>
+        Add task
+      </div>
+    </div>
+    <br>
+    <div class="field">
+      <button class="ui button" x-ng-click="vm.closeForm()">
+        Cancel
+      </button>
+      <button class=" ui blue right labeled icon button" x-ng-class="{loading: vm.processing}" x-ng-disabled="vm.processing">
+        <i class="save icon"></i>
+        Submit
+      </button>
+    </div>
+
+  </form>
+</div>

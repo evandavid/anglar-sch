@@ -1,0 +1,38 @@
+<div class="ui fixed inverted menu">
+  <div class="ui container">
+    <a href="#" class="header item">
+      <img class="logo" src="images/logo.png" style="margin-right: 10px">
+      Whatever project
+    </a>
+    <a ui-sref="app.restricted.dashboard" ui-sref-active="active" class="item">
+      <i class="dashboard icon"></i>
+      Dashboard
+    </a>
+    <a ui-sref="app.restricted.users" ui-sref-active="active" class="item">
+      <i class="users icon"></i>
+      Users
+    </a>
+
+    <a ui-sref="app.restricted.services" ui-sref-active="active" class="item">
+      <i class="checkmark box icon"></i>
+      Services
+    </a>
+
+    <a href="#" class="item">
+      <i class="suitcase icon"></i>
+      Jobs
+    </a>
+
+    <a href="#" class="item">
+      <i class="calendar icon"></i>
+      Calendar
+    </a>
+
+    <div class="ui simple dropdown item right">
+      Hi &nbsp; <span x-ng-bind="$root.currentUser.name"></span> <i class="dropdown icon"></i>
+      <div class="menu">
+        <a class="item" href="" x-ng-click="$root.logout()">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>

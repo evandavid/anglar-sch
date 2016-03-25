@@ -1,0 +1,39 @@
+<div class="ui padded main container">
+    <div class="ui grid">
+      <div class="four wide column">
+          <div class="ui top attached segment">
+             <div class="ui relaxed list">
+                <div class="item">
+                  <div class="ui avatar image page title">
+                      <i class="users icon"></i>
+                  </div>
+                  <div class="content">
+                    <a class="header">Users</a>
+                    <div class="description">User management</div>
+                  </div>
+                </div>
+                <button class="title refresh action" title="Add new user" x-ng-click="vm.refresh()"  x-ng-disabled="vm.showForm">
+                  <i class="refresh icon"></i>
+                </button>
+                <button class="title action" title="Add new user" x-ng-click="vm.getForm()"  x-ng-disabled="vm.showForm">
+                  <i class="add icon"></i>
+                </button>
+              </div>
+          </div>
+
+          <div x-ng-include="'views/users/_filter.html'" class="ui bottom attached segment"></div>
+      </div>
+      <div class="twelve wide column">
+        <div x-ng-include="'views/users/_list.html'" x-ng-if="!vm.showForm"></div>
+        <div x-ng-include="'views/users/_form.html'" x-ng-if="vm.showForm"></div>
+      </div>
+    </div>
+</div>
+
+<div class="ui warning message undo" ng-if="vm.deleteId">
+  <div class="ui padded container">
+    <div class="header">User deleted</div>
+    <p>User successfully deleted. <a href="" x-ng-click="vm.undoDelete()">Undo</a></p>
+  </div>
+
+</div>
