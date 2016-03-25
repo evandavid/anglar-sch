@@ -17,9 +17,7 @@ angular
                 url: '',
                 abstract: true,
                 templateUrl: 'views/layouts/application.html',
-                controller: function($rootScope, currentUser){
-                    $rootScope.currentUser = currentUser;
-                },
+                controller: 'MainCtrl',
                 params: { token: null },
                 resolve: {
                     currentUser: ['Cancan', function(Cancan){
@@ -30,19 +28,35 @@ angular
                 .state('app.restricted', {
                     url: '',
                     abstract: true,
-                    template: '<div ui-view> </div>',
+                    templateUrl: 'views/layouts/application.html',
                     resolve: {
-                        authorize: ['User', function(Authorization) {
+                        authorize: ['Authorization', function(Authorization) {
                             return Authorization.authorize();
                         }]
                     }
                 })
                     .state('app.restricted.dashboard', {
                         url: '/dashboard',
-                        templateUrl: 'views/layouts/application.html',
-                        controller: function(){
-                            console.log('tains');
+                        templateUrl: 'views/dashboards/index.html',
+                        controllerAs: 'vm',
+                        data: {
+                            roles: ['superadmin', 'user']
                         },
+                    })
+                    .state('app.restricted.users', {
+                        url: '/users',
+                        templateUrl: 'views/users/index.html',
+                        controller: 'UsersCtrl',
+                        controllerAs: 'vm',
+                        data: {
+                            roles: ['superadmin']
+                        },
+                    })
+                    .state('app.restricted.services', {
+                        url: '/services',
+                        templateUrl: 'views/services/index.html',
+                        controller: 'ServicesCtrl',
+                        controllerAs: 'vm',
                         data: {
                             roles: ['superadmin']
                         },

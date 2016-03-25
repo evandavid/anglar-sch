@@ -1,0 +1,15 @@
+<div class="ui right floated pagination menu pagination">
+    <button class="icon item" x-ng-click="vm.currentPage = vm.currentPage - 1; vm.refresh();" x-ng-disabled="vm.currentPage === 1">
+      <i class="left chevron icon"></i>
+    </button>
+    <button  x-ng-click="vm.currentPage = n; vm.refresh();"
+        class="item"
+        x-ng-if="n == (vm.currentPage) || n == (vm.currentPage+1) || ( vm.currentPage > ($root.pageCount(vm.totalPage)-4) && ( n == ($root.pageCount(vm.totalPage)-2) || n == ($root.pageCount(vm.totalPage)-3) ) ) || n == ($root.pageCount(vm.totalPage)) || n == ($root.pageCount(vm.totalPage)-1)"
+        x-ng-class="{ active: vm.currentPage == n }"
+        x-ng-repeat="n in $root.range(1,$root.pageCount(vm.totalPage))">
+            {{n}}
+    </button>
+    <button class="icon item" x-ng-click="vm.currentPage = vm.currentPage + 1; vm.refresh();" x-ng-disabled="vm.currentPage == $root.pageCount(vm.totalPage) || vm.totalPage == 0">
+      <i class="right chevron icon"></i>
+    </button>
+</div>

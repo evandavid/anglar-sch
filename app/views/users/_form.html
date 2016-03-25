@@ -1,0 +1,75 @@
+<div class="ui grey padded top attached segment">
+   <h4 class="ui header">
+   <span x-ng-if="!vm.selectedUser.id">Create </span>
+   <span x-ng-if="vm.selectedUser.id">Update </span>
+    User</h4>
+</div>
+<div class="ui bottom padded attached segment">
+
+  <div class="ui negative message" x-ng-if="vm.formError">
+    <div class="header">
+      We're sorry, we cannot submit user.
+    </div>
+    <ol>
+      <li x-ng-repeat="error in vm.formError">{{error.message}}</li>
+    </ol>
+  </div>
+
+  <div class="ui positive message" x-ng-if="vm.formSuccess">
+    <div class="header">
+      User successfully submitted.
+    </div>
+    <p>You will be redirected to user list page.</p>
+  </div>
+
+
+  <form class="ui form" style="margin-bottom: 10px" x-ng-submit="vm.submitForm(vm.selectedUser)">
+    <div class="field">
+      <div class="four wide field">
+        <label>Username</label>
+        <input type="text" placeholder="Name" x-ng-model="vm.selectedUser.username">
+      </div>
+    </div>
+    <div class="field">
+      <div class="six wide field">
+        <label>Name</label>
+        <input type="text" placeholder="Username" x-ng-model="vm.selectedUser.name">
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="six wide field">
+        <label>Password</label>
+        <input type="password" placeholder="Password" x-ng-model="vm.selectedUser.password">
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="eight wide field">
+        <label>Role</label>
+        <select x-ng-model="vm.selectedUser.roleId">
+          <option value="">Select role</option>
+          <option x-ng-repeat="role in vm.roles" value="{{role.id}}" x-ng-selected="role.id == vm.selectedUser.roleId">{{role.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="inline field">
+      <div class="ui checkbox">
+        <input type="checkbox" x-ng-model="vm.selectedUser.isActive">
+        <label>Is Active</label>
+      </div>
+    </div>
+
+    <div class="field">
+      <button class="ui button" x-ng-click="vm.closeForm()">
+        Cancel
+      </button>
+      <button class=" ui blue right labeled icon button" x-ng-class="{loading: vm.processing}" x-ng-disabled="vm.processing">
+        <i class="save icon"></i>
+        Submit
+      </button>
+    </div>
+
+  </form>
+</div>

@@ -1,3 +1,11 @@
+body {
+  background-color:white;
+  background-color:white;
+  background-image: linear-gradient(90deg, rgba(230,230,230,.5) 50%, transparent 50%),
+  linear-gradient(rgba(230,230,230,.5) 50%, transparent 50%);
+  background-size:2px 2px;
+}
+
 #auth {
   background-color:white;
   background-color:white;
@@ -14,6 +22,12 @@
     font-weight: normal;
     font-size: 36px;
     margin-bottom: 24px;
+    small {
+      display: block;
+      font-size: 14px;
+      margin-top: -10px;
+      color: red;
+    }
   }
   button {
     margin-bottom: 24px;
@@ -26,7 +40,89 @@
     position: relative;
     .segment {
       background: #fff;
-      margin-top: 50%;
+      margin-top: 40%;
+    }
+  }
+}
+
+.main {
+  padding-top: 70px;
+}
+
+.ui.header {
+  color: #666 !important;
+  font-weight: 400 !important;
+}
+
+.page.title {
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    width: 32px;
+    position: relative;
+    i {
+      display: block;
+      font-size: 18px;
+      position: absolute;
+      top: 7px;
+      left: 5px;
+    }
+}
+
+.title.action {
+    background: #2185d0;
+    color: #fff;
+    width: 26px;
+    padding: 3px;
+    border-radius: 40px;
+    position: absolute;
+    right: 12px;
+    top: 22px;
+    cursor: pointer;
+    border: none;
+    &:disabled {
+      opacity: 0.5;
+      &:hover {
+        background: #2185d0 !important;
+      }
+      &.refresh:hover {
+        background: #e0e1e2 !important;
+      }
+    }
+    &:hover {
+      background: #1678c2;
+    }
+    &.refresh {
+      right: 45px;
+      background: #e0e1e2;
+      color: #333;
+      &:hover {
+        background: #cacbcd;
+      }
+    }
+    i {
+        margin-left: 2px;
+        margin-top: 1px;
+    }
+}
+
+.undo {
+    border-radius: 0 !important;
+    position: fixed !important;
+    bottom: 0;
+    width: 100%;
+    margin: 0 !important;
+}
+
+.ui.menu.pagination {
+  button {
+    background: #fff;
+    border: none;
+    outline: none;
+    &:disabled {
+      background: #f2f2f2;
+      i {
+        color: #a0a0a0;
+      }
     }
   }
 }

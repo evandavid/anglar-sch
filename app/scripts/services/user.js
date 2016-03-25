@@ -5,7 +5,22 @@ angular
     .factory('User', function (Restangular) {
         return {
             me: function() {
-                return Restangular.one('20sd7').get();
+                return Restangular.one('users/me').get();
+            },
+            create: function(user) {
+                return Restangular.all('users/create').customPOST({user: user}, null, {}, {});
+            },
+            update: function(user) {
+                return Restangular.all('users/update').customPOST({user: user}, null, {}, {});
+            },
+            delete: function(id) {
+                return Restangular.all('users').customDELETE('delete?userId='+id, {});
+            },
+            undelete: function(id) {
+                return Restangular.all('users/undelete').customPOST({userId: id}, null, {}, {});
+            },
+            getAll: function(name, username, page) {
+                return Restangular.one('users/all?filterName='+name+'&filterUsername='+username+'&page='+page).get();
             },
         };
     });

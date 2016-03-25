@@ -1,0 +1,35 @@
+<table class="ui single line table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Username</th>
+      <th>Created At</th>
+      <th>Role</th>
+      <th>Active</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr x-ng-repeat="user in vm.users">
+      <td>{{user.name}}</td>
+      <td>{{user.username}}</td>
+      <td>{{user.createdAt | date:'dd MMMM yyyy HH:mm'}}</td>
+      <td>{{user.Roles[0].name}}</td>
+      <td>{{user.isActive?'Yes':'No'}}</td>
+      <td>
+        <a href="" x-ng-click="vm.editUser(user)">Edit</a> <span x-ng-if="$root.currentUser.id != user.id">|
+        <a href="" x-ng-click="vm.deleteUser(user.id)">Delete</a></span>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th>
+        <div class="ui small inline loader" x-ng-class="{active: vm.loadData}"></div>
+      </th>
+      <th colspan="5">
+        <div x-ng-include="'views/partials/_pagination.html'"></div>
+      </th>
+    </tr>
+  </tfoot>
+</table>

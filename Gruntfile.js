@@ -45,7 +45,18 @@ module.exports = function (grunt) {
           'bower_components/semantic/dist/components/form.css',
           'bower_components/semantic/dist/components/segment.css',
           'bower_components/semantic/dist/components/header.css',
-          'bower_components/semantic/dist/components/icon.css'
+          'bower_components/semantic/dist/components/icon.css',
+          'bower_components/semantic/dist/components/menu.css',
+          'bower_components/semantic/dist/components/dropdown.css',
+          'bower_components/semantic/dist/components/divider.css',
+          'bower_components/semantic/dist/components/table.css',
+          'bower_components/semantic/dist/components/list.css',
+          'bower_components/semantic/dist/components/checkbox.css',
+          'bower_components/semantic/dist/components/loader.css',
+          'bower_components/semantic/dist/components/dimmer.css',
+          'bower_components/semantic/dist/components/message.css',
+          'bower_components/semantic/dist/components/transition.css',
+          'bower_components/semantic/dist/components/label.css'
           ],
         dest: '<%= yeoman.app %>/styles/vendor.css',
       },
@@ -430,6 +441,12 @@ module.exports = function (grunt) {
         cwd: 'bower_components/semantic/dist/themes/default/assets/fonts/',
         dest: '<%= yeoman.dist %>/themes/default/assets/fonts/',
         src: '**'
+      },
+      iconDev: {
+        expand: true,
+        cwd: 'bower_components/semantic/dist/themes/default/assets/fonts/',
+        dest: '.tmp/themes/default/assets/fonts/',
+        src: '**'
       }
     },
 
@@ -438,7 +455,7 @@ module.exports = function (grunt) {
       server: [
         'concat:style',
         'copy:styles',
-        'copy:icon',
+        'copy:iconDev',
         'sass'
       ],
       test: [

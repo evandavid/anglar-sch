@@ -13,19 +13,22 @@ angular.module('angularApp')
             isAuthenticated: function() {
                 return _authenticated;
             },
-            isInRole: function(role) {
-                if (!_authenticated || !_identity.role) {
+            isInRole: function(roles) {
+                if (!_authenticated || !_identity.roles) {
                     return false;
                 }
 
-                return _identity.role.indexOf(role) !== -1;
+                return _identity.roles.indexOf(roles) !== -1;
             },
-            isInAnyRole: function(role) {
-                if (!_authenticated || !_identity.role) {
+            isInAnyRole: function(roles) {
+                if (!_identity){
                     return false;
                 }
-                for (var i = 0; i < role.length; i++) {
-                    if (this.isInRole(role[i])) {
+                if (!_authenticated || !_identity.roles) {
+                    return false;
+                }
+                for (var i = 0; i < roles.length; i++) {
+                    if (this.isInRole(roles[i])) {
                         return true;
                     }
                 }

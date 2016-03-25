@@ -1,0 +1,40 @@
+<table class="ui single line table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Tasks</th>
+      <th>Created At</th>
+      <th>Price</th>
+      <th>Package?</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr x-ng-repeat="service in vm.services">
+      <td>{{service.name}}</td>
+      <td>
+        <span x-ng-repeat="tasks in service.chunkTasks" >
+          <a class="ui blue label" x-ng-repeat="task in tasks" x-ng-bind="task.name"></a>
+          <div style="margin-bottom: 5px" x-ng-hide="$last"></div>
+        </span>
+      </td>
+      <td>{{service.createdAt | date:'dd MMMM yyyy HH:mm'}}</td>
+      <td>{{(service.price | currency:'Rp ':0).replace(',', '.')}}</td>
+      <td>{{service.isPackage?'Yes':'No'}}</td>
+      <td>
+        <a href="" x-ng-click="vm.edit(service)">Edit</a> |
+        <a href="" x-ng-click="vm.delete(service.id)">Delete</a>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th>
+        <div class="ui small inline loader" x-ng-class="{active: vm.loadData}"></div>
+      </th>
+      <th colspan="5">
+        <div x-ng-include="'views/partials/_pagination.html'"></div>
+      </th>
+    </tr>
+  </tfoot>
+</table>

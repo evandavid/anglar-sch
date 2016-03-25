@@ -2,7 +2,6 @@
 
 angular
   .module('angularApp', [
-    'ngAnimate',
     'ngSanitize',
     'ui.router',
     'LocalStorageModule',
@@ -17,7 +16,7 @@ angular
       .setStorageCookieDomain(domain);
 
     RestangularProvider
-      .setBaseUrl('http://myjson.com');
+      .setBaseUrl('http://expressnode.azurewebsites.net/api');
 
     $httpProvider.interceptors.push('APIInterceptor');
   })
@@ -40,7 +39,7 @@ angular
     };
 
     service.responseError = function(rejection) {
-      if (rejection.status === 401) {
+      if (rejection.status === 401 || rejection.status === 403) {
         localStorageService.set('token', null);
         $injector.get('$state').transitionTo('auth');
         return $q.reject(rejection);// return to login page
@@ -50,10 +49,10 @@ angular
     };
 
     service.response = function(response) {
-      var data = response.headers('X-Token');
-      if (data){
-        localStorageService.set('token', data);
-      }
+      // var data = response.headers('X-Token');
+      // if (data){
+      //   localStorageService.set('token', data);
+      // }
 
       return response;
     };
