@@ -60,5 +60,26 @@ angular
                         data: {
                             roles: ['superadmin']
                         },
+                    })
+                    .state('app.restricted.jobs', {
+                        url: '/jobs',
+                        templateUrl: 'views/jobs/index.html',
+                        controller: 'JobsCtrl',
+                        controllerAs: 'vm',
+                        data: {
+                            roles: ['superadmin', 'user']
+                        },
+                    })
+                    .state('app.restricted.calendars', {
+                        url: '/calendars',
+                        templateUrl: 'views/calendars/index.html',
+                        controller: 'CalendarsCtrl',
+                        controllerAs: 'vm',
+                        data: {
+                            roles: ['superadmin', 'user']
+                        },
+                        onExit: function(){
+                            jQuery('.ui.dimmer.modals').remove();
+                        }
                     });
     });

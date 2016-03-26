@@ -1,0 +1,84 @@
+<div class="ui grey padded top attached segment">
+   <h4 class="ui header">
+   <span x-ng-if="!vm.selectedData.id">Create </span>
+   <span x-ng-if="vm.selectedData.id">Update </span>
+    Jobs</h4>
+</div>
+<div class="ui bottom padded attached segment">
+
+  <div class="ui negative message" x-ng-if="vm.formError">
+    <div class="header">
+      We're sorry, we cannot submit job.
+    </div>
+    <ol>
+      <li x-ng-repeat="error in vm.formError">{{error.message}}</li>
+    </ol>
+  </div>
+
+  <div class="ui positive message" x-ng-if="vm.formSuccess">
+    <div class="header">
+      Service successfully submitted.
+    </div>
+    <p>You will be redirected to job list page.</p>
+  </div>
+
+
+  <form class="ui form" style="margin-bottom: 10px" x-ng-submit="vm.submitForm(vm.selectedData)">
+    <div class="field">
+      <div class="eight wide field">
+        <label>Client Name</label>
+        <input type="text" placeholder="Name" x-ng-model="vm.selectedData.Client.name">
+      </div>
+    </div>
+
+     <div class="field">
+      <div class="twelve wide field">
+        <label>Client Address</label>
+        <textarea placeholder="Address" x-ng-model="vm.selectedData.Client.address"></textarea>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="seven wide field">
+        <label>Maid</label>
+        <select x-ng-model="vm.selectedData.UserId">
+          <option value="">Select maid</option>
+          <option x-ng-repeat="user in vm.users" value="{{user.id}}" x-ng-selected="user.id == vm.selectedData.UserId">{{user.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="seven wide field">
+        <label>Service</label>
+        <select x-ng-model="vm.selectedData.ServiceId">
+          <option value="">Select service</option>
+          <option x-ng-repeat="service in vm.services" value="{{service.id}}" x-ng-selected="service.id == vm.selectedData.ServiceId">{{service.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="fields">
+      <div class="six wide field">
+        <label>Start At</label>
+        <input type="text" placeholder="Start at" x-ng-model="vm.selectedData.startTime" datetime-picker date-format="dd-MM-yyyy HH:mm">
+      </div>
+      <div class="six wide field">
+        <label>End At</label>
+        <input type="text" placeholder="End at" x-ng-model="vm.selectedData.endTime" datetime-picker date-format="dd-MM-yyyy HH:mm" >
+      </div>
+    </div>
+
+
+    <div class="field">
+      <div class="ui button" x-ng-click="vm.closeForm()">
+        Cancel
+      </div>
+      <button class=" ui blue right labeled icon button" x-ng-class="{loading: vm.processing}" x-ng-disabled="vm.processing">
+        <i class="save icon"></i>
+        Submit
+      </button>
+    </div>
+
+  </form>
+</div>

@@ -1,25 +1,62 @@
 'use strict';
 
 angular.module('angularApp')
-  .controller('ServicesCtrl', function (Service, $timeout) {
+  .controller('JobsCtrl', function (Job, $timeout, Batch, $rootScope) {
     var vm = this;
     vm.selectedData = {};
     vm.currentPage = 1;
 
-    function _chunkArray(data) {
-        var a = angular.copy(data);
-        var arrays = [], size = 2;
-        while (a.length > 0){
-            arrays.push(a.splice(0, size));
-        }
+    function _parseDate(data){
+        if (data !== undefined && data !== null && data !== ''){
+            var _date = data.split(' ')[0].split('-');
+            var _time = data.split(' ')[1].split(':');
 
-        return arrays;
+            return {
+                year: parseInt(_date[2]),
+                month: parseInt(_date[1])-1,
+                day: parseInt(_date[0]),
+                hour: parseInt(_time[0]),
+                minute: parseInt(_time[1])
+            };
+        } else {
+            return null;
+        }
     }
+
+    function _toJsDate(parsedDate) {
+        return new Date(parsedDate.year, parsedDate.month, parsedDate.day, parsedDate.hour, parsedDate.minute);
+    }
+
+    function _toDisplayDate(_date){
+        var date = new Date(_date);
+        return date.getDate()+ '-' + (date.getMonth()+1) + '-' +  date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes();
+    }
+
+    function _initialData() {
+        Batch.execute({
+            users: '/api/users/all',
+            services: '/api/services/all'
+        }).then(function(res){
+            vm.users = [];
+            if (res.users && res.users.users && res.users.users.length){
+                for (var i =0; i < res.users.users.length; i++){
+                    var item = res.users.users[i];
+                    if (item.Roles[0].name !== 'superadmin'){
+                        vm.users.push(item);
+                    }
+                }
+            }
+            vm.services = res.services.services;
+        });
+    }
+
+    _initialData();
 
     function _clearFilter() {
         vm.filter = {};
         vm.filter.name = '';
         vm.filter.username = '';
+        vm.filter.maidName = '';
     }
 
     _clearFilter();
@@ -45,33 +82,28 @@ angular.module('angularApp')
         vm.loadData = true;
         if (!_dontHideUndo) { vm.deleteId = null; }
 
-        Service.getAll(vm.filter.name, vm.currentPage)
+        var userId = 0;
+        if ($rootScope.currentUser.roles[0] === 'user'){
+            userId = $rootScope.currentUser.id;
+        }
+
+        Job.getAll(vm.filter.name, vm.currentPage, vm.filter.maidName, userId)
             .then(function(res){
                 vm.loadData = false;
-                vm.services = res.services;
-                if (vm.services && vm.services.length){
-                    for(var i =0; i < vm.services.length; i++){
-                        if (vm.services[i].Tasks && vm.services[i].Tasks.length){
-                            vm.services[i].chunkTasks = _chunkArray(vm.services[i].Tasks);
-                        }
-                    }
-                }
-
+                vm.jobs = res.jobs;
                 vm.totalPage = res.total;
             });
     }
 
-    function _createOrUpdate(service) {
+    function _createOrUpdate(_service) {
+        var service = angular.copy(_service);
         vm.formError = null;
         vm.processing = true;
 
-        if (!service.isPackage){
-            // not a package, need to calculate price
-            service.price = 0;
-            for (var i=0; i < service.Tasks.length; i++) {
-                service.price += isNaN(parseInt(service.Tasks[i].price))?0:parseInt(service.Tasks[i].price);
-            }
-        }
+        var parsedStartTime = _parseDate(service.startTime);
+        if (parsedStartTime) { service.startTime = _toJsDate(parsedStartTime); }
+        var parsedEndTime = _parseDate(service.endTime);
+        if (parsedEndTime) { service.endTime = _toJsDate(parsedEndTime); }
 
         function _submitSuccess() {
             vm.formSuccess = true;
@@ -82,7 +114,7 @@ angular.module('angularApp')
         }
 
         if (service.id) {
-            Service.update(service)
+            Job.update(service)
                 .then(function(){
                     _submitSuccess();
                 }, function(err){
@@ -90,7 +122,7 @@ angular.module('angularApp')
                     vm.processing = false;
                 });
         } else {
-            Service.create(service)
+            Job.create(service)
                 .then(function(){
                     _submitSuccess();
                 }, function(err){
@@ -100,17 +132,18 @@ angular.module('angularApp')
         }
     }
 
-    function _edit(service) {
+    function _edit(job) {
         _resetForm();
         $timeout(function(){
-            vm.selectedData = angular.copy(service);
-            delete vm.selectedData.Roles;
+            vm.selectedData = angular.copy(job);
+            vm.selectedData.endTime = _toDisplayDate(vm.selectedData.endTime);
+            vm.selectedData.startTime = _toDisplayDate(vm.selectedData.startTime);
         });
     }
 
     function _delete(id) {
         vm.deleteId = id;
-        Service.delete(id)
+        Job.delete(id)
             .then(function(res){
                 if (res.success){
                     _refreshList(true);
@@ -119,7 +152,7 @@ angular.module('angularApp')
     }
 
     function _undoDelete() {
-        Service.undelete(vm.deleteId)
+        Job.undelete(vm.deleteId)
             .then(function(res){
                 if (res.success){
                     _refreshList();

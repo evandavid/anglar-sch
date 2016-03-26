@@ -18,6 +18,46 @@
 
     <div ui-view></div>
 
+    <div class="ui modal" id="modalJob">
+      <div class="header">
+        Today's job(s)
+      </div>
+      <div class="image content">
+        <div class="ui medium image">
+          <i class="suitcase icon"></i>
+        </div>
+        <div class="description" style="width: 100%">
+            <div x-ng-repeat="job in $root.todaysJob">
+              <div class="ui header" style="margin-bottom:0">Client Name: <span x-ng-bind="job.Client.name"></span></div>
+              <p style="line-height: 20px">Client Address: <span x-ng-bind="job.Client.address"></span>
+                <br>Start time: <b x-ng-bind="job.startTime | date: 'dd MMMM yyyy HH:mm'"></b>
+                <br>End time: <b x-ng-bind="job.endTime | date: 'dd MMMM yyyy HH:mm'"></b>
+              </p>
+              <b>Tasks</b>
+              <ol style="margin-top: 0">
+                  <li x-ng-repeat="task in job.Service.Tasks">
+                      <span x-ng-bind="task.name"></span>
+                  </li>
+              </ol>
+
+              <div class="inline field">
+                  <div class="ui checkbox">
+                    <input type="checkbox" x-ng-model="job.Service.isPackage" disabled>
+                    <label style="opacity: 1;">Is Package</label>
+                  </div>
+                </div>
+                <div class="ui divider" x-ng-hide="$last"></div>
+            </div>
+        </div>
+      </div>
+      <div class="actions">
+        <div class="ui blue deny right labeled icon button">
+          Close
+          <i class="close icon"></i>
+        </div>
+      </div>
+    </div>
+
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
 <!--      <script>
@@ -41,6 +81,10 @@
     <script src="bower_components/lodash/lodash.js"></script>
     <script src="bower_components/restangular/dist/restangular.js"></script>
     <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+    <script src="bower_components/angularjs-datetime-picker/angularjs-datetime-picker.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/fullcalendar/dist/fullcalendar.js"></script>
+    <script src="bower_components/angular-ui-calendar/src/calendar.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -50,12 +94,17 @@
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/users.js"></script>
         <script src="scripts/controllers/services.js"></script>
+        <script src="scripts/controllers/jobs.js"></script>
+        <script src="scripts/controllers/calendars.js"></script>
         <script src="scripts/services/authentication.js"></script>
         <script src="scripts/services/authorization.js"></script>
         <script src="scripts/services/cancan.js"></script>
         <script src="scripts/services/user.js"></script>
         <script src="scripts/services/role.js"></script>
         <script src="scripts/services/service.js"></script>
+        <script src="scripts/services/job.js"></script>
+        <script src="scripts/services/batch.js"></script>
+        <script src="scripts/directives/common_directives.js"></script>
         <script src="scripts/routes.js"></script>
         <!-- endbuild -->
 </body>

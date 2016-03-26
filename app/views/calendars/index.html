@@ -1,0 +1,49 @@
+<div class="ui main container">
+  <div class="ui segment">
+    <div class="ui inverted dimmer" x-ng-class="{active: vm.gettingData}">
+      <div class="ui indeterminate text loader">Loading data</div>
+    </div>
+
+    <h3 class="ui header">Jobs Calendar</h3>
+    <div id="calendar"></div>
+  </div>
+</div>
+
+
+
+<div class="ui modal" id="modalCal">
+  <div class="header">
+    Job Details
+  </div>
+  <div class="image content">
+    <div class="ui medium image">
+      <i class="suitcase icon"></i>
+    </div>
+    <div class="description">
+      <div class="ui header" style="margin-bottom:0">Client Name: <span x-ng-bind="vm.job.Client.name"></span></div>
+      <p style="line-height: 20px">Client Address: <span x-ng-bind="vm.job.Client.address"></span>
+        <br>Start time: <b x-ng-bind="vm.job.startTime | date: 'dd MMMM yyyy HH:mm'"></b>
+        <br>End time: <b x-ng-bind="vm.job.endTime | date: 'dd MMMM yyyy HH:mm'"></b>
+      </p>
+      <b>Tasks</b>
+      <ol style="margin-top: 0">
+          <li x-ng-repeat="task in vm.job.Service.Tasks">
+              <span x-ng-bind="task.name"></span>
+          </li>
+      </ol>
+
+      <div class="inline field">
+      <div class="ui checkbox">
+        <input type="checkbox" x-ng-model="vm.job.Service.isPackage" disabled>
+        <label style="opacity: 1;">Is Package</label>
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui blue deny right labeled icon button">
+      Close
+      <i class="close icon"></i>
+    </div>
+  </div>
+</div>

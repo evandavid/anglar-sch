@@ -1,0 +1,37 @@
+<table class="ui single line table">
+  <thead>
+    <tr>
+      <th>Client Name</th>
+      <th>Client Address</th>
+      <th>Maid Name</th>
+      <th>Service Name</th>
+      <th>Start At</th>
+      <th>End At</th>
+      <th x-ng-if="$root.currentUser.roles[0] == 'superadmin'">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr x-ng-repeat="job in vm.jobs">
+      <td>{{job.Client.name}}</td>
+      <td>{{job.Client.address}}</td>
+      <td>{{job.User.name}}</td>
+      <td>{{job.Service.name}}</td>
+      <td>{{job.startTime | date:'dd MMMM yyyy HH:mm'}}</td>
+      <td>{{job.endTime | date:'dd MMMM yyyy HH:mm'}}</td>
+      <td x-ng-if="$root.currentUser.roles[0] == 'superadmin'">
+        <a href="" x-ng-click="vm.edit(job)">Edit</a> |
+        <a href="" x-ng-click="vm.delete(job.id)">Delete</a>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th>
+        <div class="ui small inline loader" x-ng-class="{active: vm.loadData}"></div>
+      </th>
+      <th colspan="6">
+        <div x-ng-include="'views/partials/_pagination.html'"></div>
+      </th>
+    </tr>
+  </tfoot>
+</table>

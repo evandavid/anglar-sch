@@ -56,7 +56,10 @@ module.exports = function (grunt) {
           'bower_components/semantic/dist/components/dimmer.css',
           'bower_components/semantic/dist/components/message.css',
           'bower_components/semantic/dist/components/transition.css',
-          'bower_components/semantic/dist/components/label.css'
+          'bower_components/semantic/dist/components/label.css',
+          'bower_components/semantic/dist/components/modal.css',
+          'bower_components/angularjs-datetime-picker/angularjs-datetime-picker.css',
+          'bower_components/fullcalendar/dist/fullcalendar.css'
           ],
         dest: '<%= yeoman.app %>/styles/vendor.css',
       },
