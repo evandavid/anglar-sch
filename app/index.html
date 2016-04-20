@@ -29,7 +29,10 @@
         <div class="description" style="width: 100%">
             <div x-ng-repeat="job in $root.todaysJob">
               <div class="ui header" style="margin-bottom:0">Client Name: <span x-ng-bind="job.Client.name"></span></div>
-              <p style="line-height: 20px">Client Address: <span x-ng-bind="job.Client.address"></span>
+              <p style="line-height: 20px">
+                 Client Address: <span x-ng-bind="job.Client.address"></span>
+                 <br>Client phone:<input type="text" readonly x-ng-model="job.Client.phone" mask="999 9999 9999" clean="true" class="as-label">
+                 <br>Client email: <span x-ng-bind="job.Client.email"></span>
                 <br>Start time: <b x-ng-bind="job.startTime | date: 'dd MMMM yyyy HH:mm'"></b>
                 <br>End time: <b x-ng-bind="job.endTime | date: 'dd MMMM yyyy HH:mm'"></b>
               </p>
