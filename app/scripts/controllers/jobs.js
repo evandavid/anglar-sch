@@ -171,6 +171,13 @@ angular.module('angularApp')
         }
     }
 
+    function _setService(id) {
+        var service = _.find(vm.services, {id: parseInt(id)});
+        $timeout(function(){
+            vm.selectedData.service = service;
+        });
+    }
+
     _refreshList();
 
     // controller assignment
@@ -184,4 +191,5 @@ angular.module('angularApp')
     vm.submitForm = _createOrUpdate;
     vm.clrFilter  = _clearFilter;
     vm.delete     = _delete;
+    vm.setService = _setService;
   });

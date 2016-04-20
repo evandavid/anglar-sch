@@ -6,7 +6,8 @@ angular
     'ui.router',
     'LocalStorageModule',
     'restangular',
-    'angularjs-datetime-picker'
+    'angularjs-datetime-picker',
+    'ngMask'
   ])
   .config(function (localStorageServiceProvider, RestangularProvider, $httpProvider) {
     var domain = window.location.hostname;
@@ -17,7 +18,7 @@ angular
       .setStorageCookieDomain(domain);
 
     RestangularProvider
-      .setBaseUrl('http://expressnode.azurewebsites.net/api');
+       .setBaseUrl('http://expressnode.azurewebsites.net/api');
       // .setBaseUrl('http://localhost:3000/api');
 
     $httpProvider.interceptors.push('APIInterceptor');
