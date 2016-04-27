@@ -41,7 +41,7 @@ angular.module('angularApp')
             if (res.users && res.users.users && res.users.users.length){
                 for (var i =0; i < res.users.users.length; i++){
                     var item = res.users.users[i];
-                    if (item.Roles[0].name !== 'superadmin' && item.Roles[0].name !== 'user'){
+                    if (item.Roles[0].name !== 'superadmin' && item.Roles[0].name !== 'user' && item.isActive ){
                         vm.users.push(item);
                     }
                 }
