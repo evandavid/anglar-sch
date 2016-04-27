@@ -230,7 +230,8 @@ angular.module('angularApp')
 
     function _calculateAge(birthday){
         if (!birthday) return '-';
-        birthday = new Date(birthday);
+        var arr = birthday.split('-');
+        birthday = new Date(arr[2], arr[1], arr[0]);
         var ageDifMs = Date.now() - birthday.getTime();
         var ageDate = new Date(ageDifMs); // miliseconds from epoch
         return Math.abs(ageDate.getUTCFullYear() - 1970);
