@@ -15,15 +15,79 @@ angular.module('angularApp')
         _renderByDate(currentDate);
     });
 
+    function setDay(date, dayOfWeek) {
+        date.setDate(date.getDate() + (7 + dayOfWeek - date.getDay()) % 7);
+        return date;
+    }
+
+    function getNextDay(date){
+        date.setDate(date.getDate() + 1);
+        return date;
+    }
+
+    function getCountOf( date1, date2, dayToSearch ){
+        var dateObj1 = new Date(date1);
+        var dateObj2 = new Date(date2);
+
+        var count = 0;
+        var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thusday", "Friday", "Saturday"];
+        var dayIndex = week.indexOf( dayToSearch );
+
+        while ( dateObj1.getTime() <= dateObj2.getTime() )
+        {
+           if (dateObj1.getDay() == dayIndex )
+           {
+              count++
+           }
+
+           dateObj1.setDate(dateObj1.getDate() + 1);
+        }
+
+        return count;
+    }
+
+    function _getDateOnly(date){
+        date = new Date(date);
+        return date.getFullYear() + '-' + ('0' + (date.getMonth()+1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+    }
+
     function _constructEvent(data) {
         var events = [];
+        var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thusday", "Friday", "Saturday"];
         _.each(data, function (item) {
-            events.push({
-                title: 'Client: ' + item.Client.name + '<br />Address: '+item.Client.address+'<br />Maid: '+ item.User.name,
-                start: item.startTime,
-                end: item.endTime,
-                id: item.id
-            });
+
+            if (item.JobsDates.length){
+                _.each(item.JobsDates, function(itm){
+                    var dayCount = getCountOf(item.startTime, item.endTime, itm.date);
+
+                    var start = new Date(item.startTime);
+                    var end = new Date(item.endTime);
+
+                    for (var i=0; i < dayCount; i++){
+                        var nextDay = setDay(start, week.indexOf( itm.date ));
+                        start = getNextDay(angular.copy(nextDay));
+                        if (nextDay <= end){
+                            // insert to calendar
+
+                            console.log(events)
+                            events.push({
+                                title: 'Client: ' + item.Client.name + '<br />Address: '+item.Client.address+'<br />Maid: '+ item.User.name,
+                                start: _getDateOnly(nextDay)+'T'+itm.startTime+':00.000Z',
+                                end: _getDateOnly(nextDay)+'T'+itm.endTime+':00.000Z',
+                                id: item.id
+                            });
+                        }
+                    }
+                })
+            }
+            else {
+                events.push({
+                    title: 'Client: ' + item.Client.name + '<br />Address: '+item.Client.address+'<br />Maid: '+ item.User.name,
+                    start: item.startTime,
+                    end: item.endTime,
+                    id: item.id
+                });
+            }
         });
 
         return events;

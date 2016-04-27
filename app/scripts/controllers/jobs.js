@@ -34,14 +34,14 @@ angular.module('angularApp')
 
     function _initialData() {
         Batch.execute({
-            users: '/api/users/all',
+            users: '/api/users/all?maid=true',
             services: '/api/services/all'
         }).then(function(res){
             vm.users = [];
             if (res.users && res.users.users && res.users.users.length){
                 for (var i =0; i < res.users.users.length; i++){
                     var item = res.users.users[i];
-                    if (item.Roles[0].name !== 'superadmin'){
+                    if (item.Roles[0].name !== 'superadmin' && item.Roles[0].name !== 'user'){
                         vm.users.push(item);
                     }
                 }
@@ -113,6 +113,56 @@ angular.module('angularApp')
             }, 600);
         }
 
+        function isNullOrEmpty(data){
+            return data == '' || data == undefined || data == null
+        }
+
+        function validateTime(data){
+            if (!data) return false;
+
+            var arr = data.split(':');
+            if (!arr[0] || !arr[1]){
+                return false;
+            } else {
+                if (arr[0] && !isNaN(parseInt(arr[0])) && parseInt(arr[0]) <= 23){
+                    return true;
+                } else {
+                    return false;
+                }
+
+                if (arr[1] && !isNaN(parseInt(arr[1])) && parseInt(arr[1]) <= 60){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        // validate time in
+        var isPackage = false;
+        if (vm.selectedData.service) isPackage = vm.selectedData.service.isPackage;
+        if (vm.selectedData.Service) isPackage = vm.selectedData.Service.isPackage;
+
+        if (isPackage && vm.selectedData.JobsDates && vm.selectedData.JobsDates.length){
+            var isError = false;
+            for (var i = vm.selectedData.JobsDates.length - 1; i >= 0; i--) {
+                var holder = vm.selectedData.JobsDates[i];
+                if (isNullOrEmpty(holder.date) || isNullOrEmpty(holder.startTime) || isNullOrEmpty(holder.endTime)){
+                    vm.formError = [{message: 'Select day cannot be blank.'}];
+                    isError = true;
+                }
+
+                if (!validateTime(holder.startTime) || !validateTime(holder.endTime)){
+                    vm.formError = [{message: 'Start time or end time on day selection not valid.'}];
+                    isError = true;
+                }
+            }
+            if (isError){
+                vm.processing = false;
+                return false;
+            }
+        }
+
         if (service.id) {
             Job.update(service)
                 .then(function(){
@@ -160,17 +210,6 @@ angular.module('angularApp')
             });
     }
 
-    function _addTask() {
-        if (!vm.selectedData.Tasks) {vm.selectedData.Tasks = [];}
-        vm.selectedData.Tasks.push({name: '', price: 0});
-    }
-
-    function _removeTask(index) {
-        if (vm.selectedData.Tasks.length){
-            vm.selectedData.Tasks.splice(index, 1);
-        }
-    }
-
     function _setService(id) {
         var service = _.find(vm.services, {id: parseInt(id)});
         $timeout(function(){
@@ -178,11 +217,31 @@ angular.module('angularApp')
         });
     }
 
+    function _addDate() {
+        if (!vm.selectedData.JobsDates) {vm.selectedData.JobsDates = [];}
+        vm.selectedData.JobsDates.push({name: '', price: 0});
+    }
+
+    function _removeDate(index) {
+        if (vm.selectedData.JobsDates.length){
+            vm.selectedData.JobsDates.splice(index, 1);
+        }
+    }
+
+    function _calculateAge(birthday){
+        if (!birthday) return '-';
+        birthday = new Date(birthday);
+        var ageDifMs = Date.now() - birthday.getTime();
+        var ageDate = new Date(ageDifMs); // miliseconds from epoch
+        return Math.abs(ageDate.getUTCFullYear() - 1970);
+    }
+
     _refreshList();
 
     // controller assignment
-    vm.removeTask = _removeTask;
-    vm.addTask    = _addTask;
+    vm.calculateAge = _calculateAge;
+    vm.removeDate = _removeDate;
+    vm.addDate    = _addDate;
     vm.undoDelete = _undoDelete;
     vm.edit       = _edit;
     vm.getForm    = _getForm;

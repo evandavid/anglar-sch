@@ -19,8 +19,8 @@ angular
             undelete: function(id) {
                 return Restangular.all('users/undelete').customPOST({userId: id}, null, {}, {});
             },
-            getAll: function(name, username, page) {
-                return Restangular.one('users/all?filterName='+name+'&filterUsername='+username+'&page='+page).get();
+            getAll: function(name, username, page, maid) {
+                return Restangular.one('users/all?filterName='+name+'&filterUsername='+username+'&page='+page+'&maid='+maid).get();
             },
         };
     });

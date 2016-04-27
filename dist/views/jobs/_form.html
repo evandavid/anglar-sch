@@ -83,6 +83,38 @@
       </div>
     </div>
 
+    <div class="fields" x-ng-repeat="data in vm.selectedData.JobsDates" data-ng-if="vm.selectedData.service.isPackage || vm.selectedData.Service.isPackage">
+      <div class="four wide field">
+        <select x-ng-model="data.date">
+          <option value="">Select day</option>
+          <option value="Monday">Monday</option>
+          <option value="Tuesday">Tuesday</option>
+          <option value="Wednesday">Wednesday</option>
+          <option value="Thursday">Thursday</option>
+          <option value="Friday">Friday</option>
+          <option value="Saturday">Saturday</option>
+          <option value="Sunday">Sunday</option>
+        </select>
+      </div>
+      <div class="three wide field">
+        <input type="text" placeholder="HH:MM" x-ng-model="data.startTime" mask="99:99">
+      </div>
+      <div class="three wide field">
+        <input type="text" placeholder="HH:MM" x-ng-model="data.endTime" mask="99:99">
+      </div>
+      <div class="four wide field">
+        <div class="ui red labeled icon button" x-ng-click="vm.removeDate($index)">
+          <i class="trash icon"></i>
+          Remove
+        </div>
+      </div>
+    </div>
+    <div class="field" data-ng-if="vm.selectedData.service.isPackage || vm.selectedData.Service.isPackage">
+      <div class="ui right labeled icon button" x-ng-click="vm.addDate()">
+        <i class="plus icon"></i>
+        Add day selection
+      </div>
+    </div>
 
     <div class="field">
       <div class="ui button" x-ng-click="vm.closeForm()">

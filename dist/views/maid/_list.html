@@ -1,0 +1,48 @@
+<table class="ui single line table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Created At</th>
+      <th>Role</th>
+      <th>Active</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr x-ng-repeat="user in vm.users">
+      <td x-ng-if="!user.showMore">{{user.name}}</td>
+      <td x-ng-if="!user.showMore" >{{user.createdAt | date:'dd MMMM yyyy HH:mm'}}</td>
+      <td x-ng-if="!user.showMore">{{user.Roles[0].name}}</td>
+      <td x-ng-if="!user.showMore">{{user.isActive?'Yes':'No'}}</td>
+      <td x-ng-if="user.showMore" colspan="4">
+        <p><strong>Name: </strong> {{user.name}}</p>
+        <p><strong>Created At: </strong> {{user.createdAt | date:'dd MMMM yyyy HH:mm'}}</p>
+        <p><strong>Date of Birth: </strong> {{user.dateOfBirth | date:'dd MMMM yyyy'}}</p>
+        <p><strong>Role: </strong> {{user.Roles[0].name}}</p>
+        <p><strong>Passport No: </strong> {{user.passport}}</p>
+        <p><strong>Phone Number: </strong> <input type="text" readonly x-ng-model="user.phoneNumber" mask="999 9999 9999" clean="true" class="as-label"></p>
+        <p><strong>Phone Number (Indonesia): </strong> <input type="text" readonly x-ng-model="user.phoneNumberIdn" mask="9999 9999 9999" clean="true" class="as-label"></p>
+        <p><strong>Address: </strong> {{user.address}}</p>
+      </td>
+      <td>
+        <a href="" x-ng-click="user.showMore = !user.showMore">
+          <span x-ng-if="!user.showMore">More</span>
+          <span x-ng-if="user.showMore">Less</span>
+        </a> |
+        <a href="" x-ng-click="vm.editUser(user)">Edit</a> <span x-ng-if="$root.currentUser.id != user.id">|
+        <a href="" x-ng-click="vm.deleteUser(user.id)">Delete</a></span>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th>
+        <div class="ui small inline loader" x-ng-class="{active: vm.loadData}"></div>
+      </th>
+      <th colspan="4">
+        <div x-ng-include="'views/partials/_pagination.html'"></div>
+        <div style="clear: both"></div>
+      </th>
+    </tr>
+  </tfoot>
+</table>

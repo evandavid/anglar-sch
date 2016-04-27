@@ -52,6 +52,15 @@ angular
                             roles: ['superadmin']
                         },
                     })
+                    .state('app.restricted.maid', {
+                        url: '/maid',
+                        templateUrl: 'views/maid/index.html',
+                        controller: 'UsersCtrl',
+                        controllerAs: 'vm',
+                        data: {
+                            roles: ['superadmin']
+                        },
+                    })
                     .state('app.restricted.services', {
                         url: '/services',
                         templateUrl: 'views/services/index.html',

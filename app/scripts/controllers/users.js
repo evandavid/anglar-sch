@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angularApp')
-  .controller('UsersCtrl', function (User, Role, $timeout) {
+  .controller('UsersCtrl', function (User, Role, $timeout, $state) {
     var vm = this;
     vm.selectedUser = {};
     vm.selectedUser.isActive = true;
@@ -23,6 +23,17 @@ angular.module('angularApp')
 
     function _getForm() {
         _resetForm();
+        vm.uuid = _generateUUID();
+        if ($state.current.name == 'app.restricted.maid'){
+            vm.selectedUser.username = _generateUUID();
+            vm.selectedUser.password = _generateUUID();
+            vm.selectedUser.roleId = 3;
+        } else {
+            vm.selectedUser.passport = _generateUUID();
+            vm.selectedUser.phoneNumber = _generateUUID();
+            vm.selectedUser.phoneNumberIdn = _generateUUID();
+            vm.selectedUser.address = _generateUUID();
+        }
     }
 
     function _closeForm() {
@@ -36,7 +47,7 @@ angular.module('angularApp')
         vm.loadData = true;
         if (!_dontHideUndo) { vm.deleteId = null; }
 
-        User.getAll(vm.filter.name, vm.filter.username, vm.currentPage)
+        User.getAll(vm.filter.name, vm.filter.username, vm.currentPage, $state.current.name == 'app.restricted.maid')
             .then(function(res){
                 vm.loadData = false;
                 vm.users = res.users;
@@ -82,6 +93,11 @@ angular.module('angularApp')
             });
     }
 
+    function _toDisplayDate(_date){
+        var date = new Date(_date);
+        return date.getDate()+ '-' + (date.getMonth()+1) + '-' +  date.getFullYear();
+    }
+
     function _editUser(user) {
         _resetForm();
         $timeout(function(){
@@ -89,6 +105,7 @@ angular.module('angularApp')
             if (user.Roles && user.Roles[0]) {
                 vm.selectedUser.roleId = user.Roles[0].id;
             }
+            vm.selectedUser.dateOfBirth =  _toDisplayDate(vm.selectedUser.dateOfBirth);
             delete vm.selectedUser.Roles;
         });
     }
@@ -110,6 +127,16 @@ angular.module('angularApp')
                     _refreshList();
                 }
             });
+    }
+
+    function _generateUUID() {
+        function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
     }
 
     _getRole();

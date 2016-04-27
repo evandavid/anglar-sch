@@ -19,7 +19,7 @@ angular
 
     RestangularProvider
        .setBaseUrl('http://expressnode.azurewebsites.net/api');
-      // .setBaseUrl('http://localhost:3000/api');
+      //.setBaseUrl('http://localhost:3000/api');
 
     $httpProvider.interceptors.push('APIInterceptor');
   })

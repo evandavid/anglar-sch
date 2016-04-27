@@ -22,7 +22,15 @@
         <p><strong>Address: </strong> {{job.Client.address}}</p>
         <p><strong>Email: </strong> {{job.Client.email}}</p>
         <p><strong>Phone: </strong> <input type="text" readonly x-ng-model="job.Client.phone" mask="999 9999 9999" clean="true" class="as-label"></p>
+        <hr>
         <p><strong>Maid Name: </strong> {{job.User.name}}</p>
+        <p><strong>Maid Passport No: </strong> {{job.User.passport}}</p>
+        <p><strong>Maid Age: </strong> {{vm.calculateAge(job.User.dateOfBirth)}} years old</p>
+        <p><strong>Maid Phone Number: </strong> <input type="text" readonly x-ng-model="job.User.phoneNumber" mask="999 9999 9999" clean="true" class="as-label"></p>
+        <p><strong>Maid phone Number (IDN): </strong> <input type="text" readonly x-ng-model="job.User.phoneNumberIdn" mask="9999 9999 9999" clean="true" class="as-label"></p>
+        <p><strong>Maid Address: </strong> {{job.User.address}}</p>
+        <p><strong>Maid Is Active: </strong> {{job.User.isActive ? 'Yes': 'No'}}</p>
+        <hr>
         <p><strong>Service Name: </strong> {{job.Service.name}}</p>
       </td>
 
