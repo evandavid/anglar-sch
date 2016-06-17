@@ -71,6 +71,14 @@
         </select>
       </div>
     </div>
+
+    <div class="field">
+      <div class="seven wide field">
+        <label>Price</label>
+        <input type="text" placeholder="Price" readonly="readonly" value="RM {{vm.selectedData.Service.price}}">
+      </div>
+    </div>
+
 <!-- x-ng-if="vm.selectedData.service && !vm.selectedData.service.isPackage" -->
     <div class="fields"  >
       <div class="six wide field">
@@ -96,11 +104,14 @@
           <option value="Sunday">Sunday</option>
         </select>
       </div>
-      <div class="three wide field">
+     <!--  <div class="three wide field">
         <input type="text" placeholder="HH:MM" x-ng-model="data.startTime" mask="99:99">
       </div>
       <div class="three wide field">
         <input type="text" placeholder="HH:MM" x-ng-model="data.endTime" mask="99:99">
+      </div> -->
+      <div class="three wide field">
+        <input type="text" placeholder="Hour" x-ng-model="data.hour" mask="99">
       </div>
       <div class="four wide field">
         <div class="ui red labeled icon button" x-ng-click="vm.removeDate($index)">

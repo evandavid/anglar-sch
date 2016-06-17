@@ -19,7 +19,7 @@
         </span>
       </td>
       <td>{{service.createdAt | date:'dd MMMM yyyy HH:mm'}}</td>
-      <td>{{(service.price | currency:'Rp ':0).replace(',', '.')}}</td>
+      <td>{{(service.price | currency:'RM ':0).replace(',', '.')}}</td>
       <td>{{service.isPackage?'Yes':'No'}}</td>
       <td>
         <a href="" x-ng-click="vm.edit(service)">Edit</a> |

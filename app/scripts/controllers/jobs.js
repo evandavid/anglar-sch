@@ -147,13 +147,17 @@ angular.module('angularApp')
             var isError = false;
             for (var i = vm.selectedData.JobsDates.length - 1; i >= 0; i--) {
                 var holder = vm.selectedData.JobsDates[i];
-                if (isNullOrEmpty(holder.date) || isNullOrEmpty(holder.startTime) || isNullOrEmpty(holder.endTime)){
+                if (isNullOrEmpty(holder.date) || isNullOrEmpty(holder.hour)){
                     vm.formError = [{message: 'Select day cannot be blank.'}];
                     isError = true;
                 }
 
-                if (!validateTime(holder.startTime) || !validateTime(holder.endTime)){
-                    vm.formError = [{message: 'Start time or end time on day selection not valid.'}];
+                // if (!validateTime(holder.startTime) || !validateTime(holder.endTime)){
+                //     vm.formError = [{message: 'Start time or end time on day selection not valid.'}];
+                //     isError = true;
+                // }
+                if (isNullOrEmpty(holder.hour)){
+                    vm.formError = [{message: 'Hour on day selection not valid.'}];
                     isError = true;
                 }
             }
@@ -189,6 +193,10 @@ angular.module('angularApp')
             vm.selectedData.endTime = _toDisplayDate(vm.selectedData.endTime);
             vm.selectedData.startTime = _toDisplayDate(vm.selectedData.startTime);
         });
+        setTimeout(function() {
+            var selectForm = $('[x-ng-model="vm.selectedData.ServiceId"]');
+            selectForm.val(vm.selectedData.ServiceId);
+        }, 100);
     }
 
     function _delete(id) {
@@ -214,6 +222,7 @@ angular.module('angularApp')
         var service = _.find(vm.services, {id: parseInt(id)});
         $timeout(function(){
             vm.selectedData.service = service;
+            vm.selectedData.Service.price = service.price;
         });
     }
 

@@ -69,7 +69,6 @@ angular.module('angularApp')
                         if (nextDay <= end){
                             // insert to calendar
 
-                            console.log(events)
                             events.push({
                                 title: 'Client: ' + item.Client.name + '<br />Address: '+item.Client.address+'<br />Maid: '+ item.User.name,
                                 start: _getDateOnly(nextDay)+'T'+itm.startTime+':00.000Z',
