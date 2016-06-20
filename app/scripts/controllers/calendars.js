@@ -196,7 +196,7 @@ angular.module('angularApp')
                         var itm = jobsDetails[i];
 
                         var viewedData = localStorageService.get(currentUser.username);
-                        if (!viewedData || (viewedData && viewedData.indexOf(itm.id) > -1)){
+                        if (!viewedData || (viewedData && viewedData.indexOf(String(itm.id)) < 0)){
                             var html = '<div data-id="'+itm.id+'" class="hovering"></div><div ><h4 >Todays job</h4>';
                             html += '<p style="margin-bottom: 5px">Client name: '+itm.Client.name+'</p>';
                             html += '<p style="margin-top: 0">Address: '+itm.Client.address;
