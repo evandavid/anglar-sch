@@ -212,7 +212,9 @@ angular.module('angularApp')
         //}
     }
 
+    $.noty.closeAll();
     _checkTodaysJob();
+
     $.noty.defaults = {
         layout: 'bottomRight',
         theme: 'defaultTheme', // or 'relax'
