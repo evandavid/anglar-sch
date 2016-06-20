@@ -146,6 +146,23 @@ body {
     }
 }
 
+#noty_topRight_layout_container {
+  top: 65px !important;
+  & > li {
+    border-radius: 3px !important;
+    margin-bottom: 5px !important;
+  }
+}
+
+.hovering {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+}
+
 /* Mobile */
 @media only screen and (max-width: 767px) {
   [class*="mobile hidden"],

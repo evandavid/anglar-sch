@@ -5,6 +5,7 @@ angular.module('angularApp')
         $rootScope.currentUser = currentUser;
 
         $rootScope.logout = function(){
+            localStorageService.set(currentUser.username, null);
             localStorageService.set('token', null);
             $state.go('auth');
         };
@@ -22,17 +23,17 @@ angular.module('angularApp')
             return input;
         };
 
-        function _checkTodaysJob() {
-            if (currentUser.roles[0] === 'user'){
-                Job.getAll('', '', '', currentUser.id, new Date())
-                    .then(function(res){
-                        $rootScope.todaysJob = res.jobs;
-                        if (res.jobs.length) {
-                            jQuery('#modalJob').modal('show');
-                        }
-                    });
-            }
-        }
+        // function _checkTodaysJob() {
+        //     //if (currentUser.roles[0] === 'user'){
+        //         Job.getAll('', '', '', 0, new Date())
+        //             .then(function(res){
+        //                 $rootScope.todaysJob = res.jobs;
+        //                 if (res.jobs.length) {
+        //                     jQuery('#modalJob').modal('show');
+        //                 }
+        //             });
+        //     //}
+        // }
 
-        _checkTodaysJob();
+        // _checkTodaysJob();
 });

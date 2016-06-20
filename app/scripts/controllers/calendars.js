@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angularApp')
-  .controller('CalendarsCtrl', function (Job, $rootScope, $timeout) {
+  .controller('CalendarsCtrl', function (Job, $rootScope, $timeout, currentUser, localStorageService) {
     var vm = this;
 
     // next and prev month button clicked
@@ -70,7 +70,7 @@ angular.module('angularApp')
                             // insert to calendar
 
                             events.push({
-                                title: 'Client: ' + item.Client.name + '<br />Address: '+item.Client.address+'<br />Maid: '+ item.User.name,
+                                title: 'Client: ' + item.Client.name + '<br />Address: '+item.Client.address+'<br />Maid: '+ item.User.name+'<br />Price: RM '+item.Service.price+'<br />Total hour: '+itm.hour+ ' hour(s)',
                                 start: _getDateOnly(nextDay)+'T'+itm.startTime+':00.000Z',
                                 end: _getDateOnly(nextDay)+'T'+itm.endTime+':00.000Z',
                                 id: item.id
@@ -155,5 +155,99 @@ angular.module('angularApp')
     }
 
     _initial();
+
+    function checkArr(data, key, q){
+        var retrn = false;
+        for (var i = 0; i < data.length; i++) {
+            var itm = data[i];
+            if(itm[key] === q){
+                retrn = true;
+                break;
+            }
+        }
+        return retrn;
+    }
+
+    function _checkTodaysJob() {
+        var dates = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        var d     = new Date();
+        var tody  = dates[d.getDay()];
+
+        //if (currentUser.roles[0] === 'user'){
+            Job.getAll('', '', '', 0, new Date())
+                .then(function(res){
+                    $rootScope.todaysJob = res.jobs;
+                    var jobsCount   = res.jobs.length;
+                    var jobsDetails = [];
+
+                    if (jobsCount) {
+                        for (var i = 0; i < jobsCount; i++) {
+                            var itm = res.jobs[i];
+                            if (itm.Service.isPackage){
+                                // check day
+                                var hasTodayData = checkArr(itm.JobsDates, 'date', tody);
+                                if (hasTodayData) jobsDetails.push(itm);
+                            } else jobsDetails.push(itm);
+                        }
+                    }
+
+                    var jobsDetailCount = jobsDetails.length;
+                    for (var i = 0; i < jobsDetailCount; i++) {
+                        var itm = jobsDetails[i];
+
+                        var viewedData = localStorageService.get(currentUser.username);
+                        if (!viewedData || (viewedData && viewedData.indexOf(itm.id) > -1)){
+                            var html = '<div data-id="'+itm.id+'" class="hovering"></div><div ><h4 >Todays job</h4>';
+                            html += '<p style="margin-bottom: 5px">Client name: '+itm.Client.name+'</p>';
+                            html += '<p style="margin-top: 0">Address: '+itm.Client.address;
+                            html += '<br>Client email: '+itm.Client.email;
+                            html += '<br>Client phone: '+itm.Client.phone;
+                            html += '<br>Maid: '+itm.User.name;
+                            html += '<br>Price: RM '+itm.Service.price;
+                            html += '</p></div>';
+                            var n = noty({text: html});
+                        }
+                    };
+                });
+        //}
+    }
+
+    _checkTodaysJob();
+    $.noty.defaults = {
+        layout: 'bottomRight',
+        theme: 'defaultTheme', // or 'relax'
+        type: 'information',
+        text: '', // can be html or string
+        dismissQueue: true, // If you want to use queue feature set this true
+        template: '<div class="noty_message"><span class="noty_text"></span><div class="noty_close"></div></div>',
+        animation: {
+            open: {height: 'toggle'}, // or Animate.css class names like: 'animated bounceInLeft'
+            close: {height: 'toggle'}, // or Animate.css class names like: 'animated bounceOutLeft'
+            easing: 'swing',
+            speed: 500 // opening & closing animation speed
+        },
+        timeout: false, // delay for closing event. Set false for sticky notifications
+        force: false, // adds notification to the beginning of queue when set to true
+        modal: false,
+        maxVisible: 15, // you can set max visible notification for dismissQueue true option,
+        killer: false, // for close all notifications before show
+        closeWith: ['click'], // ['click', 'button', 'hover', 'backdrop'] // backdrop click will close all notifications
+        callback: {
+            onShow: function() {},
+            afterShow: function() {},
+            onClose: function() {},
+            afterClose: function() {},
+            onCloseClick: function(c,s) {
+                var viewedData = localStorageService.get(currentUser.username);
+                if (!viewedData) viewedData = [];
+                var idx = $(c.target).attr('data-id');
+                if (viewedData.indexOf(idx)  < 0)
+                    viewedData.push(idx)
+
+                localStorageService.set(currentUser.username,viewedData);
+            },
+        },
+        buttons: false // an array of buttons
+    };
 
   });
