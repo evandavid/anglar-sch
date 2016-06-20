@@ -81,7 +81,7 @@ angular.module('angularApp')
             }
             else {
                 events.push({
-                    title: 'Client: ' + item.Client.name + '<br />Address: '+item.Client.address+'<br />Maid: '+ item.User.name,
+                    title: 'Client: ' + item.Client.name + '<br />Address: '+item.Client.address+'<br />Maid: '+ item.User.name+'<br />Price: RM '+item.Service.price,
                     start: item.startTime,
                     end: item.endTime,
                     id: item.id
