@@ -89,6 +89,7 @@ angular
                         },
                         onExit: function(){
                             jQuery('.ui.dimmer.modals').remove();
+                            $.noty.closeAll();
                         }
                     });
     });
