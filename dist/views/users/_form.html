@@ -57,7 +57,7 @@
         <label>Role *</label>
         <select x-ng-model="vm.selectedUser.roleId">
           <option value="">Select role</option>
-          <option x-ng-repeat="role in vm.roles" value="{{role.id}}" x-ng-selected="role.id == vm.selectedUser.roleId">{{role.name}}</option>
+          <option ng-if="role.name !== 'maid'" x-ng-repeat="role in vm.roles" value="{{role.id}}" x-ng-selected="role.id == vm.selectedUser.roleId">{{role.name}}</option>
         </select>
       </div>
     </div>

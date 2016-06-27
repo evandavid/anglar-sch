@@ -30,8 +30,8 @@ angular.module('angularApp')
             vm.selectedUser.roleId = 3;
         } else {
             vm.selectedUser.passport = _generateUUID();
-            vm.selectedUser.phoneNumber = _generateUUID();
-            vm.selectedUser.phoneNumberIdn = _generateUUID();
+            vm.selectedUser.phoneNumber = 12345678;
+            vm.selectedUser.phoneNumberIdn = 123456789;
             vm.selectedUser.address = _generateUUID();
         }
     }
