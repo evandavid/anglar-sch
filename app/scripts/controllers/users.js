@@ -27,11 +27,14 @@ angular.module('angularApp')
         if ($state.current.name == 'app.restricted.maid'){
             vm.selectedUser.username = _generateUUID();
             vm.selectedUser.password = _generateUUID();
+            vm.selectedUser.phoneNumber = 12345678;
             vm.selectedUser.roleId = 3;
         } else {
             vm.selectedUser.passport = _generateUUID();
             vm.selectedUser.phoneNumber = 12345678;
             vm.selectedUser.phoneNumberIdn = 123456789;
+            vm.selectedUser.maidID = _generateUUID();
+            vm.selectedUser.bankAccount = _generateUUID();
             vm.selectedUser.address = _generateUUID();
         }
     }

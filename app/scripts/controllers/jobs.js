@@ -32,6 +32,16 @@ angular.module('angularApp')
         return date.getDate()+ '-' + (date.getMonth()+1) + '-' +  date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes();
     }
 
+    function _toDisplayDate2(_date){
+        var date = new Date(_date);
+        var d = date.getDate();
+        if (d < 10) d = '0' +d;
+        var m = date.getMonth() + 1;
+        if (m < 10) m = '0' +m;
+
+        return d+ '-' + m + '-' +  date.getFullYear() ;
+    }
+
     function _initialData() {
         Batch.execute({
             users: '/api/users/all?maid=true',
@@ -100,10 +110,21 @@ angular.module('angularApp')
         vm.formError = null;
         vm.processing = true;
 
-        var parsedStartTime = _parseDate(service.startTime);
-        if (parsedStartTime) { service.startTime = _toJsDate(parsedStartTime); }
-        var parsedEndTime = _parseDate(service.endTime);
-        if (parsedEndTime) { service.endTime = _toJsDate(parsedEndTime); }
+        // var parsedStartTime = _parseDate(service.startTime);
+        // if (parsedStartTime) { service.startTime = _toJsDate(parsedStartTime); }
+        // var parsedEndTime = _parseDate(service.endTime);
+        // if (parsedEndTime) { service.endTime = _toJsDate(parsedEndTime); }
+
+        var arrStr = service.startTimeD.split('-');
+        var newTimeStr = convertTo24Hour(service.startTimeT+service.startTimeZ).split(':');
+        var dStr = new Date(arrStr[2], parseInt(arrStr[1])-1, arrStr[0], newTimeStr[0], newTimeStr[1]);
+
+        var arrEnd = service.endTimeD.split('-');
+        var newTimeEnd = convertTo24Hour(service.endTimeT+service.endTimeZ).split(':');
+        var dEnd = new Date(arrEnd[2], parseInt(arrEnd[1])-1, arrEnd[0], newTimeEnd[0], newTimeEnd[1]);
+
+        service.endTime = dEnd;
+        service.startTime = dStr;
 
         function _submitSuccess() {
             vm.formSuccess = true;
@@ -186,12 +207,55 @@ angular.module('angularApp')
         }
     }
 
+    function convertTo24Hour(time) {
+        var hours = parseInt(time.substr(0, 2));
+        if(time.indexOf('am') != -1 && hours == 12) {
+            time = time.replace('12', '0');
+        }
+        if(time.indexOf('pm')  != -1 && hours < 12) {
+            time = time.replace(hours, (hours + 12));
+        }
+        return time.replace(/(am|pm)/, '');
+    }
+
+    function convertTime24to12(hour, minute){
+        hour = parseInt(hour);
+        minute = parseInt(minute);
+        if (minute < 10) minute = '0'+minute;
+        if(hour == 12) {
+            return [ hour + ':' + minute ,'pm'];
+        } else {
+            if( hour == 0) {
+                return ['12:' + minute, 'am'];
+            } else {
+                if(hour > 12) {
+                    var t = (hour-12);
+                    if (t < 10) t = '0' + t ;
+                    return [t + ':' + minute, 'pm'];
+                } else {
+                    if (hour < 10) hour = '0'+hour;
+                    return [hour + ':' + minute, 'am'];
+                }
+            }
+        }
+    }
+
     function _edit(job) {
         _resetForm();
         $timeout(function(){
             vm.selectedData = angular.copy(job);
-            vm.selectedData.endTime = _toDisplayDate(vm.selectedData.endTime);
-            vm.selectedData.startTime = _toDisplayDate(vm.selectedData.startTime);
+
+            vm.selectedData.endTimeD = _toDisplayDate2(vm.selectedData.endTime);
+            var endArr = new Date(vm.selectedData.endTime);
+            var endDetail = convertTime24to12(endArr.getHours(), endArr.getMinutes());
+            vm.selectedData.endTimeT = endDetail[0];
+            vm.selectedData.endTimeZ = endDetail[1];
+
+            vm.selectedData.startTimeD = _toDisplayDate2(vm.selectedData.startTime);
+            var startArr = new Date(vm.selectedData.startTime);
+            var startDetail = convertTime24to12(startArr.getHours(), startArr.getMinutes());
+            vm.selectedData.startTimeT = startDetail[0];
+            vm.selectedData.startTimeZ = startDetail[1];
         });
         setTimeout(function() {
             var selectForm = $('[x-ng-model="vm.selectedData.ServiceId"]');

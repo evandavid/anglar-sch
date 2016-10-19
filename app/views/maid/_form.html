@@ -26,6 +26,13 @@
   <form class="ui form" style="margin-bottom: 10px" x-ng-submit="vm.submitForm(vm.selectedUser)" name="users">
     <div class="field">
       <div class="six wide field">
+        <label>Maid ID *</label>
+        <input type="text" placeholder="Maid ID" x-ng-model="vm.selectedUser.maidID">
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="six wide field">
         <label>Name *</label>
         <input type="text" placeholder="Name" x-ng-model="vm.selectedUser.name">
       </div>
@@ -40,17 +47,17 @@
 
     <div class="field" >
       <div class="eight wide field">
-        <label>Date Of Birth *</label>
-        <input type="text" placeholder="DD-MM-YYYY" x-ng-model="vm.selectedUser.dateOfBirth" mask="39-19-9999" >
+        <label>PLKS date*</label>
+        <input type="text" placeholder="DD-MM-YYYY" x-ng-model="vm.selectedUser.dateOfBirth" mask="31-12-9999" >
       </div>
     </div>
 
-    <div class="field" >
+    <!-- <div class="field" >
       <div class="eight wide field">
         <label>Mobile Phone *</label>
         <input type="text" placeholder="Mobile phone" x-ng-model="vm.selectedUser.phoneNumber" mask="999 9999 9999" clean="true">
       </div>
-    </div>
+    </div> -->
 
     <div class="field">
       <div class="eight wide field">
@@ -59,10 +66,17 @@
       </div>
     </div>
 
+    <div class="field" >
+      <div class="eight wide field">
+        <label>Bank Account No *</label>
+        <input type="text" placeholder="Bank Account" x-ng-model="vm.selectedUser.bankAccount">
+      </div>
+    </div>
+
     <div class="field">
       <div class="twelve wide field">
-        <label>Address *</label>
-        <textarea placeholder="Address" x-ng-model="vm.selectedUser.address"></textarea>
+        <label>Remark *</label>
+        <textarea placeholder="Remark" x-ng-model="vm.selectedUser.address"></textarea>
       </div>
     </div>
 

@@ -15,14 +15,16 @@
       <td x-ng-if="!user.showMore">{{user.Roles[0].name}}</td>
       <td x-ng-if="!user.showMore">{{user.isActive?'Yes':'No'}}</td>
       <td x-ng-if="user.showMore" colspan="4">
+        <p><strong>MaidID: </strong> {{user.maidID}}</p>
         <p><strong>Name: </strong> {{user.name}}</p>
         <p><strong>Created At: </strong> {{user.createdAt | date:'dd MMMM yyyy HH:mm'}}</p>
-        <p><strong>Date of Birth: </strong> {{user.dateOfBirth | date:'dd MMMM yyyy'}}</p>
+        <p><strong>PLKS date: </strong> {{user.dateOfBirth | date:'dd MMMM yyyy'}}</p>
         <p><strong>Role: </strong> {{user.Roles[0].name}}</p>
         <p><strong>Passport No: </strong> {{user.passport}}</p>
-        <p><strong>Phone Number: </strong> <input type="text" readonly x-ng-model="user.phoneNumber" mask="999 9999 9999" clean="true" class="as-label"></p>
-        <p><strong>Phone Number (Indonesia): </strong> <input type="text" readonly x-ng-model="user.phoneNumberIdn" mask="9999 9999 9999" clean="true" class="as-label"></p>
-        <p><strong>Address: </strong> {{user.address}}</p>
+        <p><strong>Bank Account No.: </strong> {{user.bankAccount}}</p>
+<!--         <p><strong>Phone Number: </strong> <input type="text" readonly x-ng-model="user.phoneNumber" mask="999 9999 9999" clean="true" class="as-label"></p>
+ -->        <p><strong>Phone Number (Indonesia): </strong> <input type="text" readonly x-ng-model="user.phoneNumberIdn" mask="9999 9999 9999" clean="true" class="as-label"></p>
+        <p><strong>Remark: </strong> {{user.address}}</p>
       </td>
       <td>
         <a href="" x-ng-click="user.showMore = !user.showMore">

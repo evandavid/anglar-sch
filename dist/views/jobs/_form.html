@@ -81,13 +81,39 @@
 
 <!-- x-ng-if="vm.selectedData.service && !vm.selectedData.service.isPackage" -->
     <div class="fields"  >
-      <div class="six wide field">
+      <div class="three wide field">
         <label>Start At *</label>
-        <input type="text" placeholder="Start at" x-ng-model="vm.selectedData.startTime" datetime-picker date-format="dd-MM-yyyy HH:mm">
+        <input type="text" placeholder="DD-MM-YYYY" x-ng-model="vm.selectedData.startTimeD" mask="31-12-9999">
       </div>
-      <div class="six wide field">
+      <div class="three wide field">
+        <label>&nbsp</label>
+        <input type="text" placeholder="HH:MM" x-ng-model="vm.selectedData.startTimeT" mask="12:59" >
+      </div>
+      <div class="three wide field">
+        <label>&nbsp</label>
+        <select x-ng-model="vm.selectedData.startTimeZ">
+          <option value="am">am</option>
+          <option value="pm">pm</option>
+        </select>
+      </div>
+
+      </div>
+
+     <div class="fields">
+      <div class="three wide field">
         <label>End At *</label>
-        <input type="text" placeholder="End at" x-ng-model="vm.selectedData.endTime" datetime-picker date-format="dd-MM-yyyy HH:mm" >
+        <input type="text" placeholder="DD-MM-YYYY" x-ng-model="vm.selectedData.endTimeD" mask="31-12-9999" >
+      </div>
+      <div class="three wide field">
+        <label>&nbsp</label>
+        <input type="text" placeholder="HH:MM" x-ng-model="vm.selectedData.endTimeT" mask="12:59" >
+      </div>
+       <div class="three wide field">
+        <label>&nbsp</label>
+        <select x-ng-model="vm.selectedData.endTimeZ">
+          <option value="am">am</option>
+          <option value="pm">pm</option>
+        </select>
       </div>
     </div>
 
